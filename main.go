@@ -1,174 +1,134 @@
 package main
 
-import (
-	"fmt"
-	"strings"
-)
+import "fmt"
 
 func main() {
-	fmt.Println("No 1")
-	findDivisor(6)
-	findDivisor(24)
-	findDivisor(7)
 
-	fmt.Println("No 2")
-	extractDigit(12234)
-	extractDigit(5432)
-	extractDigit(1278)
+	fmt.Println("No. 6")
+	m5 := matrixNo6()
+	displayMatrix(m5)
 
-	fmt.Println("No 3")
-	triangleStarLeft(5)
-	fmt.Println()
-	triangleStarRight(5)
+	fmt.Println("\nNo. 7")
+	m5 = matrixNo7()
+	displayMatrix(m5)
 
-	fmt.Println("No 4")
-	numberPyramidInput()
+	fmt.Println("\nNo. 8")
+	n := 7
+	m7 := matrixNo8(n)
+	displayMatrixNo8(m7)
 
-	fmt.Println("No 5")
-	patternFive(5)
-
-	fmt.Println("No 6")
-	patternSix(5)
-
-	fmt.Println("No 8")
-	fmt.Println(isPalindrome("Kasur ini rusak"))
-	fmt.Println(isPalindrome("tamaT"))
-	fmt.Println(isPalindrome("Aku Usa"))
-
-	fmt.Println("No 9")
-	fmt.Println(reverse("ABCD"))
-	fmt.Println(reverse("tamaT"))
-	fmt.Println(reverse("XYnb"))
-
-	fmt.Println("No 10")
-	fmt.Println(checkBraces("()"))
-	fmt.Println(checkBraces("()()"))
-	fmt.Println(checkBraces("(()"))
-	fmt.Println(checkBraces("()(()"))
-
-	fmt.Println("No 11")
-	fmt.Println(isNumberPalindrome(121))
-	fmt.Println(isNumberPalindrome(2147447412))
-	fmt.Println(isNumberPalindrome(333))
-	fmt.Println(isNumberPalindrome(110))
-	fmt.Println(isNumberPalindrome(11))
+	fmt.Println("\nNo. 9")
+	m8 := matrixNo9()
+	displayMatrix(m8)
+	fmt.Println("\nNo. 10")
+	matrixNo10()
 }
 
-func findDivisor(n int) {
-	for i := 1; i <= n; i++ {
-		if n%i == 0 {
-			fmt.Print(i, " ")
-		}
-	}
-	fmt.Println()
-}
-
-func extractDigit(n int) {
-	for n > 0 {
-		fmt.Print(n%10, " ")
-		n /= 10
-	}
-	fmt.Println()
-}
-
-func triangleStarLeft(n int) {
-	for i := n; i >= 1; i-- {
-		for j := 1; j <= i; j++ {
-			fmt.Print("* ")
-		}
-		fmt.Println()
-	}
-}
-
-func triangleStarRight(n int) {
-	for i := 1; i <= n; i++ {
-		for s := 1; s <= n-i; s++ {
-			fmt.Print("  ")
-		}
-		for j := 1; j <= i; j++ {
-			fmt.Print("* ")
-		}
-		fmt.Println()
-	}
-}
-
-func numberPyramidInput() {
-	var n int
-	fmt.Print("Masukkan jumlah baris piramida: ")
-	fmt.Scanln(&n)
-
-	for i := n; i >= 1; i-- {
-		for j := i; j >= 1; j-- {
-			fmt.Print(j, " ")
-		}
-		for j := 2; j <= i; j++ {
-			fmt.Print(j, " ")
-		}
-		fmt.Println()
-	}
-}
-
-func patternFive(n int) {
-	for i := 1; i <= n; i++ {
-		for j := 1; j <= n; j++ {
-			if j%2 == 1 {
-				fmt.Print(i, " ")
+func matrixNo6() [][]int {
+	matrix := make([][]int, 5)
+	for i := 0; i < 5; i++ {
+		matrix[i] = make([]int, 5)
+		for j := 0; j < 5; j++ {
+			if i == j {
+				matrix[i][j] = i + 1
+			} else if j > i {
+				matrix[i][j] = 10
 			} else {
-				fmt.Print(n-i+1, " ")
+				matrix[i][j] = 20
 			}
 		}
-		fmt.Println()
 	}
+	return matrix
 }
 
-func patternSix(n int) {
-	for i := 1; i <= n; i++ {
-		for j := 1; j <= n; j++ {
-			if (i+j)%2 == 0 {
-				fmt.Print("- ")
+func matrixNo7() [][]int {
+	matrix := make([][]int, 5)
+	for i := 0; i < 5; i++ {
+		matrix[i] = make([]int, 5)
+		for j := 0; j < 5; j++ {
+			if i == j {
+				matrix[i][j] = 5 - i
+			} else if j > i {
+				matrix[i][j] = 20
 			} else {
-				fmt.Print(j, " ")
+				matrix[i][j] = 10
+			}
+		}
+	}
+	return matrix
+}
+
+func matrixNo8(n int) [][]int {
+	matrix := make([][]int, n)
+	for i := 0; i < n; i++ {
+		matrix[i] = make([]int, n)
+		for j := 0; j < n; j++ {
+			if i == 0 || j == 0 || i == n-1 || j == n-1 {
+				matrix[i][j] = i + j
+			}
+		}
+	}
+	return matrix
+}
+
+func displayMatrixNo8(matrix [][]int) {
+	n := len(matrix)
+	for i := 0; i < n; i++ {
+		for j := 0; j < n; j++ {
+			if i > 0 && i < n-1 && j > 0 && j < n-1 {
+				fmt.Printf("    ")
+			} else {
+				fmt.Printf("%4d", matrix[i][j])
 			}
 		}
 		fmt.Println()
 	}
 }
 
-func isPalindrome(s string) bool {
-	s = strings.ToLower(s)
-	s = strings.ReplaceAll(s, " ", "")
-	return s == reverse(s)
-}
-
-func reverse(s string) string {
-	r := ""
-	for i := len(s) - 1; i >= 0; i-- {
-		r += string(s[i])
+func matrixNo9() [][]int {
+	matrix := make([][]int, 8)
+	for i := 0; i < 8; i++ {
+		matrix[i] = make([]int, 8)
 	}
-	return r
-}
 
-func checkBraces(s string) bool {
-	count := 0
-	for _, c := range s {
-		if c == '(' {
-			count++
-		} else if c == ')' {
-			count--
-			if count < 0 {
-				return false
-			}
+	for i := 0; i < 7; i++ {
+		for j := 0; j < 7; j++ {
+			matrix[i][j] = i + j
+			matrix[i][7] += matrix[i][j]
+			matrix[7][j] += matrix[i][j]
+			matrix[7][7] += matrix[i][j]
 		}
 	}
-	return count == 0
+	return matrix
 }
 
-func isNumberPalindrome(n int) bool {
-	ori := n
-	rev := 0
-	for n > 0 {
-		rev = rev*10 + n%10
-		n /= 10
+func displayMatrix(matrix [][]int) {
+	for i := 0; i < len(matrix); i++ {
+		for j := 0; j < len(matrix[i]); j++ {
+			fmt.Printf("%4d", matrix[i][j])
+		}
+		fmt.Println()
 	}
-	return ori == rev
+}
+func matrixNo10() {
+	jawaban := [][]string{
+		{"A", "B", "A", "C", "C", "D", "E", "E", "A", "D"}, //Student-0
+		{"D", "B", "A", "B", "C", "A", "E", "E", "A", "D"}, //Student-1
+		{"E", "D", "D", "A", "C", "B", "E", "E", "A", "D"}, //Student-2
+		{"C", "B", "A", "E", "D", "C", "E", "E", "A", "D"}, //Student-3
+		{"A", "B", "D", "C", "C", "D", "E", "E", "A", "D"}, //Student-4
+		{"B", "B", "E", "C", "C", "D", "E", "E", "A", "D"}, //Student-5
+		{"B", "B", "A", "C", "C", "D", "E", "E", "A", "D"}, //Student-6
+		{"E", "B", "E", "C", "C", "D", "E", "E", "A", "D"}, //Student-7
+	}
+	kunci := []string{"D", "B", "D", "C", "C", "D", "A", "E", "A", "D"}
+	for i := 0; i < len(jawaban); i++ {
+		benar := 0
+		for j := 0; j < len(kunci); j++ {
+			if jawaban[i][j] == kunci[j] {
+				benar++
+			}
+		}
+		fmt.Printf("Jawaban Siswa %d yang benar : %d\n", i, benar)
+	}
 }
