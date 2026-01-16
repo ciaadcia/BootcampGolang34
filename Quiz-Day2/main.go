@@ -1,134 +1,136 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
 
-	fmt.Println("No. 6")
-	m5 := matrixNo6()
-	displayMatrix(m5)
+	fmt.Println("NO 1")
+	var words1 = [4]string{"code", "java", "cool", "java"}
+	fmt.Println(upperCaseExcept(words1))
 
-	fmt.Println("\nNo. 7")
-	m5 = matrixNo7()
-	displayMatrix(m5)
+	var words2 = [4]string{"black", "pink", "venom", "venom"}
+	fmt.Println(upperCaseExcept(words2))
 
-	fmt.Println("\nNo. 8")
-	n := 7
-	m7 := matrixNo8(n)
-	displayMatrixNo8(m7)
+	fmt.Println("NO 2")
+	var nums1 = [10]int{2, 3, 4, 5, 6, 7, 8, 9, 1, 10}
+	fmt.Println(findMinMax(nums1))
 
-	fmt.Println("\nNo. 9")
-	m8 := matrixNo9()
-	displayMatrix(m8)
-	fmt.Println("\nNo. 10")
-	matrixNo10()
+	fmt.Println("NO 3")
+	var nums2 = [10]int{5, 3, 4, 2, 6, 7, 8, 9, 1, 10}
+	fmt.Println(findMinRange(nums2, 0, 10))
+	fmt.Println(findMinRange(nums2, 0, 7))
+
+	var nums3 = [10]int{1, 22, 3, 4, 5, 10, 7, 8, 9, 49}
+	fmt.Println(findMaxRange(nums3, 0, 10))
+	fmt.Println(findMaxRange(nums3, 2, 7))
+
+	fmt.Println("NO 4")
+	var nums4 = [10]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+	fmt.Println(oddEvenOrder(nums4))
+
+	fmt.Println("NO 5")
+	var nums5 = [5]int{12, 15, 1, 5, 20}
+	fmt.Println(rotateRight(nums5, 1))
+	fmt.Println(rotateRight(nums5, 2))
+	fmt.Println(rotateRight(nums5, 3))
 }
 
-func matrixNo6() [][]int {
-	matrix := make([][]int, 5)
+func upperCaseExcept(words [4]string) [4]string {
+	var result [4]string
+	last := words[3]
+
+	for i := 0; i < 4; i++ {
+		if words[i] != last {
+			result[i] = strings.ToUpper(words[i])
+		} else {
+			result[i] = words[i]
+		}
+	}
+	return result
+}
+
+func findMinMax(nums [10]int) [2]int {
+	var result [2]int
+	min := nums[0]
+	max := nums[0]
+
+	for i := 0; i < 10; i++ {
+		if nums[i] < min {
+			min = nums[i]
+		}
+		if nums[i] > max {
+			max = nums[i]
+		}
+	}
+	result[0] = min
+	result[1] = max
+	return result
+}
+
+func findMinRange(nums [10]int, start, end int) [2]int {
+	var result [2]int
+	min := nums[start]
+	index := start
+
+	for i := start; i < end; i++ {
+		if nums[i] < min {
+			min = nums[i]
+			index = i
+		}
+	}
+	result[0] = min
+	result[1] = index
+	return result
+}
+
+func findMaxRange(nums [10]int, start, end int) [2]int {
+	var result [2]int
+	max := nums[start]
+	index := start
+
+	for i := start; i < end; i++ {
+		if nums[i] > max {
+			max = nums[i]
+			index = i
+		}
+	}
+	result[0] = max
+	result[1] = index
+	return result
+}
+
+func oddEvenOrder(nums [10]int) [10]int {
+	var result [10]int
+	pos := 0
+
+	for i := 0; i < 10; i++ {
+		if nums[i]%2 == 0 {
+			result[pos] = nums[i]
+			pos++
+		}
+	}
+	for i := 0; i < 10; i++ {
+		if nums[i]%2 != 0 {
+			result[pos] = nums[i]
+			pos++
+		}
+	}
+	return result
+}
+
+func rotateRight(nums [5]int, n int) [5]int {
+	var result [5]int
+	n = n % 5
+
 	for i := 0; i < 5; i++ {
-		matrix[i] = make([]int, 5)
-		for j := 0; j < 5; j++ {
-			if i == j {
-				matrix[i][j] = i + 1
-			} else if j > i {
-				matrix[i][j] = 10
-			} else {
-				matrix[i][j] = 20
-			}
+		newIndex := i + n
+		if newIndex >= 5 {
+			newIndex -= 5
 		}
+		result[newIndex] = nums[i]
 	}
-	return matrix
-}
-
-func matrixNo7() [][]int {
-	matrix := make([][]int, 5)
-	for i := 0; i < 5; i++ {
-		matrix[i] = make([]int, 5)
-		for j := 0; j < 5; j++ {
-			if i == j {
-				matrix[i][j] = 5 - i
-			} else if j > i {
-				matrix[i][j] = 20
-			} else {
-				matrix[i][j] = 10
-			}
-		}
-	}
-	return matrix
-}
-
-func matrixNo8(n int) [][]int {
-	matrix := make([][]int, n)
-	for i := 0; i < n; i++ {
-		matrix[i] = make([]int, n)
-		for j := 0; j < n; j++ {
-			if i == 0 || j == 0 || i == n-1 || j == n-1 {
-				matrix[i][j] = i + j
-			}
-		}
-	}
-	return matrix
-}
-
-func displayMatrixNo8(matrix [][]int) {
-	n := len(matrix)
-	for i := 0; i < n; i++ {
-		for j := 0; j < n; j++ {
-			if i > 0 && i < n-1 && j > 0 && j < n-1 {
-				fmt.Printf("    ")
-			} else {
-				fmt.Printf("%4d", matrix[i][j])
-			}
-		}
-		fmt.Println()
-	}
-}
-
-func matrixNo9() [][]int {
-	matrix := make([][]int, 8)
-	for i := 0; i < 8; i++ {
-		matrix[i] = make([]int, 8)
-	}
-
-	for i := 0; i < 7; i++ {
-		for j := 0; j < 7; j++ {
-			matrix[i][j] = i + j
-			matrix[i][7] += matrix[i][j]
-			matrix[7][j] += matrix[i][j]
-			matrix[7][7] += matrix[i][j]
-		}
-	}
-	return matrix
-}
-
-func displayMatrix(matrix [][]int) {
-	for i := 0; i < len(matrix); i++ {
-		for j := 0; j < len(matrix[i]); j++ {
-			fmt.Printf("%4d", matrix[i][j])
-		}
-		fmt.Println()
-	}
-}
-func matrixNo10() {
-	jawaban := [][]string{
-		{"A", "B", "A", "C", "C", "D", "E", "E", "A", "D"}, //Student-0
-		{"D", "B", "A", "B", "C", "A", "E", "E", "A", "D"}, //Student-1
-		{"E", "D", "D", "A", "C", "B", "E", "E", "A", "D"}, //Student-2
-		{"C", "B", "A", "E", "D", "C", "E", "E", "A", "D"}, //Student-3
-		{"A", "B", "D", "C", "C", "D", "E", "E", "A", "D"}, //Student-4
-		{"B", "B", "E", "C", "C", "D", "E", "E", "A", "D"}, //Student-5
-		{"B", "B", "A", "C", "C", "D", "E", "E", "A", "D"}, //Student-6
-		{"E", "B", "E", "C", "C", "D", "E", "E", "A", "D"}, //Student-7
-	}
-	kunci := []string{"D", "B", "D", "C", "C", "D", "A", "E", "A", "D"}
-	for i := 0; i < len(jawaban); i++ {
-		benar := 0
-		for j := 0; j < len(kunci); j++ {
-			if jawaban[i][j] == kunci[j] {
-				benar++
-			}
-		}
-		fmt.Printf("Jawaban Siswa %d yang benar : %d\n", i, benar)
-	}
+	return result
 }
